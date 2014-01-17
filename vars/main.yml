@@ -2,4 +2,5 @@
 kibana_zip: http://download.elasticsearch.org/kibana/kibana/kibana-latest.zip
 kibana_git_url: https://github.com/elasticsearch/kibana.git
 kibana_domain: screech21.royall.com
-es_address: http://localhost:9500
+kibana_root: /var/www/kibana/src
+es_url: http://screech21.royall.com:9500

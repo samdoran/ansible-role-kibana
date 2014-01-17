@@ -1,7 +1,7 @@
 server {
   listen 80;
   server_name {{ kibana_domain }};
-  root /var/www/kibana;
+  root {{ kibana_root }};
 
   # Set image format types to expire in a very long time
   location ~* ^.+\.(jpg|jpeg|gif|png|ico)$ {
@@ -18,8 +18,8 @@ server {
   # Catchall for everything else
   location / {
     auth_basic "Restricted";
-    auth_basic_user_file /var/www/htpasswd;
-    root /var/www/kibana;
+    auth_basic_user_file /etc/nginx/conf.d/htpasswd;
+    root {{ kibana_root }};
     index index.html;
     expires 1d;
     try_files $uri/ $uri;
@@ -40,9 +40,9 @@ server {
     }
 
     auth_basic "Restricted";
-    auth_basic_user_file /var/www/htpasswd;
+    auth_basic_user_file /etc/nginx/conf.d/htpasswd;
 
-    proxy_pass http://localhost:9200;
+    proxy_pass http://localhost:{{ es_http_port }};
 
     proxy_redirect off;
 
@@ -66,7 +66,7 @@ server {
       deny all;
     }
 
-    proxy_pass http://localhost:9200;
+    proxy_pass http://localhost:{{ es_http_port }};
 
     proxy_redirect off;
 
@@ -82,16 +82,16 @@ server {
     add_header Access-Control-Allow-Credentials true;
 
     auth_basic "Restricted";
-    auth_basic_user_file /var/www/htpasswd;
+    auth_basic_user_file /etc/nginx/conf.d/htpasswd;
 
   }
 
   location /es/kibana-int/ {
     rewrite ^/es/(kibana-int/.*)$ /$1 break;
-    proxy_pass http://localhost:9200;
+    proxy_pass http://localhost:{{ es_http_port }};
 
     auth_basic "Restricted";
-    auth_basic_user_file /var/www/htpasswd;
+    auth_basic_user_file /etc/nginx/conf.d/htpasswd;
 
     proxy_redirect off;
 
