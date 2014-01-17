@@ -1,0 +1,27 @@
+---
+- name: Install nginx repo
+  copy: src=etc-yum.repos.d-nginx.conf
+        dest=/etc/yum.repos.d/nginx.conf
+        owner=root
+        group=root
+        mode=0644
+  tags:
+    - kibana
+    - yum
+
+- name: Install Packages
+  yum: name={{ item }} state=present
+  with_items:
+    - nginx
+    - unzip
+    - git
+
+
+
+- name: Get latest Kibana from GitHub
+  git:  repo={{ kibana_git_url }}
+        dest=/var/www/kibana
+        version=master
+        update=yes
+  tags:
+    - kibana
