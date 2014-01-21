@@ -1,7 +1,9 @@
 server {
-  listen 80;
+  listen 443;
   server_name {{ kibana_domain }};
   root {{ kibana_root }};
+
+  include /etc/nginx/conf.d/ssl.inc;
 
   # Set image format types to expire in a very long time
   location ~* ^.+\.(jpg|jpeg|gif|png|ico)$ {

@@ -57,6 +57,27 @@
     - nginx
   notify: restart nginx
 
+- name: Copy nginx SSL config
+  template: src=etc-nginx-conf.d-ssl.inc.j2 dest=/etc/nginx/conf.d/ssl.inc owner=root group=root mode=0644
+  tags:
+    - kibana
+    - config
+    - nginx
+
+- name: Copy nginx SSL public cert
+  copy: src=etc-pki-tls-certs-screech21_royall_com.crt dest=/etc/pki/tls/certs/screech21_royall_com.crt owner=root group=root mode=0644
+  tags:
+    - kibana
+    - config
+    - nginx
+
+- name: Copy nginx SSL private key
+  copy: src=etc-pki-tls-private-screech21_royall_com.key dest=/etc/pki/tls/private/screech21_royall_com.key owner=root group=root mode=0600
+  tags:
+    - kibana
+    - config
+    - nginx
+
 - name: Copy kiban nginx config
   template: src=etc-nginx.conf.d-kibana.conf.j2 dest=/etc/nginx/conf.d/kibana.conf owner=root group=root mode=0755
   tags:
