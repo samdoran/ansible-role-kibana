@@ -36,8 +36,8 @@
 - name: Configure kibana to point at ES
   lineinfile: dest=/var/www/kibana/src/config.js
               state=present
-              regex="elasticsearch: \"http://\".*,"
-              line="elasticsearch: \"{{ es_url }}:{{ es_http_port }}\""
+              regex='elasticsearch: \"http://\".*,'
+              line='elasticsearch: \"{{ es_url }}:{{ es_http_port }}\"'
   tags:
    - kibana
    - config
