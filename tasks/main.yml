@@ -9,12 +9,6 @@
     - kibana
     - yum
 
-- name: Enable nginx
-  service: name=nginx state=started enabled=yes
-  tags:
-    - kibana
-    - nginx
-
 - name: Install Packages
   yum: name={{ item }} state=present
   with_items:
@@ -24,6 +18,12 @@
   tags:
     - kibana
     - yum
+
+- name: Enable nginx
+  service: name=nginx state=started enabled=yes
+  tags:
+    - kibana
+    - nginx
 
 - name: Get latest Kibana from GitHub
   git:  repo={{ kibana_git_url }}
