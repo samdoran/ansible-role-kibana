@@ -96,6 +96,12 @@
     - config
   notify: restart elasticsearch
 
+- name: Set kibana host to to never be master elasticsearch node
+  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml state=present regexp='^# node.master: false' line='node.data: false'"
+  tags:
+    - kibana
+    - config
+  notify: restart elasticsearch
 
 - name: Change ES heap size
   lineinfile: "dest=/etc/sysconfig/elasticsearch state=present regexp='^ES_HEAP_SIZE=.*' line='#ES_HEAP_SIZE=512m'"
