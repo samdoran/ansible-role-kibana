@@ -1,5 +1,5 @@
 ---
-- name: Restart elasticsearch
+- name: restart elasticsearch
   service: name=elasticsearch state=restarted sleep=15
 
 - name: restart nginx
