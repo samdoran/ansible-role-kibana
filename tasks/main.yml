@@ -100,6 +100,7 @@
 - name: Change ES heap size
   lineinfile: "dest=/etc/sysconfig/elasticsearch state=present regexp='^ES_HEAP_SIZE=.*' line='#ES_HEAP_SIZE=512m'"
   tags:
-   - kibana
-   - elasticsearch
-   - config
+    - kibana
+    - elasticsearch
+    - config
+   notify: restart elasticsearch
