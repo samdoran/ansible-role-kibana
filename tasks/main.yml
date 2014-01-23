@@ -103,4 +103,4 @@
     - kibana
     - elasticsearch
     - config
-   notify: restart elasticsearch
+  notify: restart elasticsearch
