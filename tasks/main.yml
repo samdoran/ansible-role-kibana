@@ -94,4 +94,4 @@
   tags:
     - kibana
     - config
-  notify: restart elastisearch
+  notify: restart elasticsearch

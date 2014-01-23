@@ -1,6 +1,5 @@
 ---
-- name: restart elasticsearch
-  service: name=elasticsearch state=restarted sleep=15
+- include: ../../../elasticsearch/handlers/main.yml
 
 - name: restart nginx
   service: name=nginx state=restarted
