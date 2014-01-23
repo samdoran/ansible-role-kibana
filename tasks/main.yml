@@ -97,7 +97,7 @@
   notify: restart elasticsearch
 
 - name: Set kibana host to to never be master elasticsearch node
-  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml state=present regexp='^# node.master: false' line='node.data: false'"
+  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml state=present regexp='^# node.master: false' line='node.master: false'"
   tags:
     - kibana
     - config
