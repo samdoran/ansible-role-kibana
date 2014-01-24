@@ -27,7 +27,7 @@
   tags: kibana
 
 - name: Configure kibana to point at ES
-  lineinfile: "dest=/var/www/kibana/src/config.js state=present regexp='(elasticsearch: \"http://\".*:)\d+,' line='\1{{ es_http_port }}\"' backrefs=yes"
+  lineinfile: "dest=/var/www/kibana/src/config.js state=present regexp='9200' line='{{ es_http_port }}'"
   tags: [ 'kibana' , 'config' ]
 
 - name: Copy nginx log rotation config
@@ -71,6 +71,6 @@
   notify: restart elasticsearch
 
 - name: Change ES heap size
-  lineinfile: "dest=/etc/sysconfig/elasticsearch state=present regexp='^ES_HEAP_SIZE=.*' line='#ES_HEAP_SIZE=512m'"
+  lineinfile: "dest=/etc/sysconfig/elasticsearch state=present regexp='^ES_HEAP_SIZE=' line='#ES_HEAP_SIZE=512m'"
   tags: [ 'kibana' , 'config' , 'elasticsearch' ]
   notify: restart elasticsearch
