@@ -27,7 +27,7 @@
   tags: kibana
 
 - name: Configure kibana to point at ES
-  lineinfile: "dest=/var/www/kibana/src/config.js state=present regexp=':9200\"' line='{{ https_port }}'"
+  lineinfile: "dest=/var/www/kibana/src/config.js state=present regexp='(^.*elasticsearch:.*):9200\"' line='\1{{ https_port }}\",' backrefs=yes"
   tags: [ 'kibana' , 'config' ]
 
 - name: Copy nginx log rotation config
