@@ -13,9 +13,6 @@
     - nginx
     - unzip
     - git
-    - xorg-x11-server-Xvfb
-    - firefox
-    - imagemagick
   tags: [ 'kibana' , 'yum' ]
 
 - name: Enable nginx
