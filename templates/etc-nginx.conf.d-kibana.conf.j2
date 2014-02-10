@@ -5,109 +5,49 @@ server {
 
   include /etc/nginx/conf.d/ssl.inc;
 
-  # Set image format types to expire in a very long time
-  location ~* ^.+\.(jpg|jpeg|gif|png|ico)$ {
-      access_log off;
-      expires max;
-  }
-
-  # Set css and js to expire in a very long time
-  location ~* ^.+\.(css|js)$ {
-      access_log off;
-      expires max;
-  }
-
-  # Catchall for everything else
   location / {
-    auth_basic "Restricted";
-    auth_basic_user_file /etc/nginx/conf.d/htpasswd;
-    root {{ kibana_root }};
-    index index.html;
-    expires 1d;
-    try_files $uri/ $uri;
-    if (-f $request_filename) {
-      break;
-    }
+    root  {{ kibana_root }};
+    index  index.html  index.htm;
   }
 
-  # Keep elasticsearch behind a proxy with http auth
-  location /es/ {
-    rewrite ^/es/_aliases$ /_aliases break;
-    rewrite ^/es/_nodes$ /_nodes break;
-    rewrite ^/es/(.*/_mapping)$ /$1 break;
-    return 403;
+  location ~ ^/_aliases$ {
+    proxy_pass http://127.0.0.1:{{ es_http_port }};
+    proxy_read_timeout 90;
+  }
+  location ~ ^/.*/_aliases$ {
+    proxy_pass http://127.0.0.1:{{ es_http_port }};
+    proxy_read_timeout 90;
+  }
+  location ~ ^/_nodes$ {
+    proxy_pass http://127.0.0.1:{{ es_http_port }};
+    proxy_read_timeout 90;
+  }
+  location ~ ^/.*/_search$ {
+    proxy_pass http://127.0.0.1:{{ es_http_port }};
+    proxy_read_timeout 90;
+  }
+  location ~ ^/.*/_mapping/field/\*$ {
+    proxy_pass http://127.0.0.1:{{ es_http_port }};
+    proxy_read_timeout 90;
+  }
 
+  # Password protected end points
+  location ~ ^/kibana-int/dashboard/.*$ {
+    proxy_pass http://127.0.0.1:{{ es_http_port }};
+    proxy_read_timeout 90;
     limit_except GET {
-      deny all;
+      proxy_pass http://127.0.0.1:{{ es_http_port }};
+#      auth_basic "Restricted";
+#      auth_basic_user_file /etc/nginx/conf.d/kibana.htpasswd;
     }
-
-    auth_basic "Restricted";
-    auth_basic_user_file /etc/nginx/conf.d/htpasswd;
-
-    proxy_pass http://localhost:{{ es_http_port }};
-
-    proxy_redirect off;
-
-    proxy_set_header  X-Real-IP  $remote_addr;
-    proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header  Host $http_host;
-
-    # For CORS Ajax
-    proxy_pass_header Access-Control-Allow-Origin;
-    proxy_pass_header Access-Control-Allow-Methods;
-    proxy_hide_header Access-Control-Allow-Headers;
-    add_header Access-Control-Allow-Headers 'X-Requested-With, Content-Type';
-    add_header Access-Control-Allow-Credentials true;
   }
-
-
-  location ~ ^/es/(.*/_search)$ {
-    rewrite ^/es/(.*/_search)$ /$1 break;
-
-    limit_except POST {
-      deny all;
+  location ~ ^/kibana-int/temp.*$ {
+    proxy_pass http://127.0.0.1:{{ es_http_port }};
+    proxy_read_timeout 90;
+    limit_except GET {
+      proxy_pass http://127.0.0.1:{{ es_http_port }};
+#      auth_basic "Restricted";
+#      auth_basic_user_file /etc/nginx/conf.d/kibana.htpasswd;
     }
-
-    proxy_pass http://localhost:{{ es_http_port }};
-
-    proxy_redirect off;
-
-    proxy_set_header  X-Real-IP  $remote_addr;
-    proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header  Host $http_host;
-
-    # For CORS Ajax
-    proxy_pass_header Access-Control-Allow-Origin;
-    proxy_pass_header Access-Control-Allow-Methods;
-    proxy_hide_header Access-Control-Allow-Headers;
-    add_header Access-Control-Allow-Headers 'X-Requested-With, Content-Type';
-    add_header Access-Control-Allow-Credentials true;
-
-    auth_basic "Restricted";
-    auth_basic_user_file /etc/nginx/conf.d/htpasswd;
-
   }
-
-  location /es/kibana-int/ {
-    rewrite ^/es/(kibana-int/.*)$ /$1 break;
-    proxy_pass http://localhost:{{ es_http_port }};
-
-    auth_basic "Restricted";
-    auth_basic_user_file /etc/nginx/conf.d/htpasswd;
-
-    proxy_redirect off;
-
-    proxy_set_header  X-Real-IP  $remote_addr;
-    proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header  Host $http_host;
-
-    # For CORS Ajax
-    proxy_pass_header Access-Control-Allow-Origin;
-    proxy_pass_header Access-Control-Allow-Methods;
-    proxy_hide_header Access-Control-Allow-Headers;
-    add_header Access-Control-Allow-Headers 'X-Requested-With, Content-Type';
-    add_header Access-Control-Allow-Credentials true;
-
-  }
-
 }

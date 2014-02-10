@@ -60,7 +60,7 @@
   notify: restart nginx
 
 - name: Copy kibana htpasswd file
-  copy: src=htpasswd dest=/etc/nginx/conf.d/htpasswd owner=root group=root mode=0644
+  copy: src=htpasswd dest=/etc/nginx/conf.d/kibana.htpasswd owner=root group=root mode=0644
   tags: [ 'kibana' , 'config' ]
 
 - name: Set kibana host to data only elastisearch node
