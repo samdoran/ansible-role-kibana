@@ -1,7 +1,6 @@
 server {
   listen 443;
   server_name {{ kibana_domain }};
-  root {{ kibana_root }};
 
   include /etc/nginx/conf.d/ssl.inc;
 
@@ -10,19 +9,15 @@ server {
     index  index.html  index.htm;
   }
 
-  location ~ ^/_aliases$ {
+  location ~ ^/_plugin {
     proxy_pass http://127.0.0.1:{{ es_http_port }};
     proxy_read_timeout 90;
   }
-  location ~ ^/.*/_aliases$ {
+  location ~ ^/_(aliases|nodes)$ {
     proxy_pass http://127.0.0.1:{{ es_http_port }};
     proxy_read_timeout 90;
   }
-  location ~ ^/_nodes$ {
-    proxy_pass http://127.0.0.1:{{ es_http_port }};
-    proxy_read_timeout 90;
-  }
-  location ~ ^/.*/_search$ {
+  location ~ ^/.*/_(aliases|search)$ {
     proxy_pass http://127.0.0.1:{{ es_http_port }};
     proxy_read_timeout 90;
   }
@@ -37,8 +32,8 @@ server {
     proxy_read_timeout 90;
     limit_except GET {
       proxy_pass http://127.0.0.1:{{ es_http_port }};
-#      auth_basic "Restricted";
-#      auth_basic_user_file /etc/nginx/conf.d/kibana.htpasswd;
+      # auth_basic "Restricted";
+      # auth_basic_user_file /etc/nginx/conf.d/kibana.myhost.org.htpasswd;
     }
   }
   location ~ ^/kibana-int/temp.*$ {
@@ -46,8 +41,8 @@ server {
     proxy_read_timeout 90;
     limit_except GET {
       proxy_pass http://127.0.0.1:{{ es_http_port }};
-#      auth_basic "Restricted";
-#      auth_basic_user_file /etc/nginx/conf.d/kibana.htpasswd;
+      # auth_basic "Restricted";
+      # auth_basic_user_file /etc/nginx/conf.d/kibana.myhost.org.htpasswd;
     }
   }
 }
