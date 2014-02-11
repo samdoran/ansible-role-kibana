@@ -24,11 +24,11 @@
         dest=/var/www/kibana
         version=master
         update=yes
-  tags: kibana
+  tags: [ 'kibana' , 'kibanaupdate']
 
 - name: Configure kibana to point at ES
   lineinfile: "dest=/var/www/kibana/src/config.js state=present regexp='(^.*elasticsearch:.*:)9200(.*)$' line='    elasticsearch: \"https://\"+window.location.hostname+\":443\",'"
-  tags: [ 'kibana' , 'config' ]
+  tags: [ 'kibana' , 'config' , 'kibanaupdate' ]
 
 - name: Copy nginx log rotation config
   copy: src=etc-logrotate.d-nginx dest=/etc/logrotate.d/nginx owner=root group=root mode=0644
