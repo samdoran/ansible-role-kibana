@@ -17,7 +17,7 @@
 
 - name: Enable nginx
   service: name=nginx state=started enabled=yes
-  tags: [ 'kibana' , 'yum' ]
+  tags: [ 'kibana' , 'yum', 'nginx' ]
 
 - name: Get latest Kibana from GitHub
   git:  repo={{ kibana_git_url }}
@@ -34,8 +34,29 @@
   copy: src=etc-logrotate.d-nginx dest=/etc/logrotate.d/nginx owner=root group=root mode=0644
   tags: [ 'kibana' , 'nginx' , 'config' ]
 
+- name: Delete default nginx config
+  file: dest=/etc/nginx/conf.d/{{ item }}
+        state=absent
+  with_items:
+    - default.conf
+    - example_ssl.conf
+  tags: [ 'kibana' , 'nginx' , 'config' ]
+
 - name: Copy main nginx config
-  template: src=etc-nginx-nginx.conf.j2 dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
+  template: src=etc-nginx-nginx.conf.j2
+            dest=/etc/nginx/nginx.conf
+            owner=root
+            group=root
+            mode=0644
+  tags: [ 'kibana' , 'nginx' , 'config' ]
+  notify: restart nginx
+
+- name: Copy nginx rewrite config
+  template: src=etc-nginx-conf.d-rewrite.conf.j2
+            dest=/etc/nginx/conf.d/rewrite.conf
+            owner=root
+            group=root
+            mode=0644
   tags: [ 'kibana' , 'nginx' , 'config' ]
   notify: restart nginx
 
