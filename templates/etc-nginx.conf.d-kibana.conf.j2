@@ -1,27 +1,26 @@
 server {
-  listen 443;
+  listen {{ https_port }};
   server_name {{ kibana_domain }};
 
   include /etc/nginx/conf.d/ssl.inc;
 
-  location / {
-    root  {{ kibana_root }};
-    index  index.html  index.htm;
-  }
-
-  location ~ ^/_plugin {
+ location ~ ^/_aliases$ {
     proxy_pass http://127.0.0.1:{{ es_http_port }};
     proxy_read_timeout 90;
   }
-  location ~ ^/_(aliases|nodes)$ {
+  location ~ ^/.*/_aliases$ {
     proxy_pass http://127.0.0.1:{{ es_http_port }};
     proxy_read_timeout 90;
   }
-  location ~ ^/.*/_(aliases|search)$ {
+  location ~ ^/_nodes$ {
     proxy_pass http://127.0.0.1:{{ es_http_port }};
     proxy_read_timeout 90;
   }
-  location ~ ^/.*/_mapping/field/\*$ {
+  location ~ ^/.*/_search$ {
+    proxy_pass http://127.0.0.1:{{ es_http_port }};
+    proxy_read_timeout 90;
+  }
+  location ~ ^/.*/_mapping$ {
     proxy_pass http://127.0.0.1:{{ es_http_port }};
     proxy_read_timeout 90;
   }
