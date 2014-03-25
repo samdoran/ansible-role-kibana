@@ -65,21 +65,17 @@
   tags: [ 'kibana' , 'nginx' , 'config' ]
 
 - name: Copy nginx SSL public cert
-  copy: src=etc-pki-tls-certs-screech21_royall_com.crt dest=/etc/pki/tls/certs/screech21_royall_com.crt owner=root group=root mode=0644
+  copy: src=screech21_royall_com.crt dest=/etc/pki/tls/certs/screech21_royall_com.crt owner=root group=root mode=0644
   tags: [ 'kibana' , 'nginx' , 'config' ]
 
 - name: Copy nginx SSL private key
-  copy: src=etc-pki-tls-private-screech21_royall_com.key dest=/etc/pki/tls/private/screech21_royall_com.key owner=root group=root mode=0600
+  template: src=screech21_royall_com.key.j2 dest=/etc/pki/tls/private/screech21_royall_com.key owner=root group=root mode=0600
   tags: [ 'kibana' , 'nginx' , 'config' ]
 
 - name: Copy kibana nginx config
   template: src=etc-nginx.conf.d-kibana.conf.j2 dest=/etc/nginx/conf.d/kibana.conf owner=root group=root mode=0644
   tags: [ 'kibana' , 'nginx' , 'config' ]
   notify: restart nginx
-
-- name: Copy kibana htpasswd file
-  copy: src=htpasswd dest=/etc/nginx/conf.d/kibana.htpasswd owner=root group=root mode=0644
-  tags: [ 'kibana' , 'config' ]
 
 - name: Set kibana host to data only elastisearch node
   lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml state=present regexp='^# node.data: true' line='node.data: false'"
