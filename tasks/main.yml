@@ -27,12 +27,12 @@
   tags: [ 'kibana' , 'kibanaupdate']
 
 - name: Configure kibana to point at ES
-  lineinfile: "dest=/var/www/kibana/src/config.js state=present regexp='(^.*elasticsearch:.*:)9200(.*)$' line='    elasticsearch: \"https://\"+window.location.hostname+\":443\",'"
-  tags: [ 'kibana' , 'config' , 'kibanaupdate' ]
+  lineinfile: "dest=/var/www/kibana/src/config.js state=present regexp='(^.*elasticsearch:.*:)(9200|443)(.*)$' line='    elasticsearch: \"https://\"+window.location.hostname+\":443\",'"
+  tags: [ 'kibana' , 'kibanaconfig' , 'kibanaupdate' ]
 
 - name: Copy nginx log rotation config
   copy: src=etc-logrotate.d-nginx dest=/etc/logrotate.d/nginx owner=root group=root mode=0644
-  tags: [ 'kibana' , 'nginx' , 'config' ]
+  tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
 - name: Delete default nginx config
   file: dest=/etc/nginx/conf.d/{{ item }}
@@ -40,7 +40,7 @@
   with_items:
     - default.conf
     - example_ssl.conf
-  tags: [ 'kibana' , 'nginx' , 'config' ]
+  tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
 - name: Copy main nginx config
   template: src=etc-nginx-nginx.conf.j2
@@ -48,7 +48,7 @@
             owner=root
             group=root
             mode=0644
-  tags: [ 'kibana' , 'nginx' , 'config' ]
+  tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
   notify: restart nginx
 
 - name: Copy nginx rewrite config
@@ -57,37 +57,37 @@
             owner=root
             group=root
             mode=0644
-  tags: [ 'kibana' , 'nginx' , 'config' ]
+  tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
   notify: restart nginx
 
 - name: Copy nginx SSL config
   template: src=etc-nginx-conf.d-ssl.inc.j2 dest=/etc/nginx/conf.d/ssl.inc owner=root group=root mode=0644
-  tags: [ 'kibana' , 'nginx' , 'config' ]
+  tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
 - name: Copy nginx SSL public cert
   copy: src=screech21_royall_com.crt dest=/etc/pki/tls/certs/screech21_royall_com.crt owner=root group=root mode=0644
-  tags: [ 'kibana' , 'nginx' , 'config' ]
+  tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
 - name: Copy nginx SSL private key
   template: src=screech21_royall_com.key.j2 dest=/etc/pki/tls/private/screech21_royall_com.key owner=root group=root mode=0600
-  tags: [ 'kibana' , 'nginx' , 'config' ]
+  tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
 - name: Copy kibana nginx config
   template: src=etc-nginx.conf.d-kibana.conf.j2 dest=/etc/nginx/conf.d/kibana.conf owner=root group=root mode=0644
-  tags: [ 'kibana' , 'nginx' , 'config' ]
+  tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
   notify: restart nginx
 
 - name: Set kibana host to data only elastisearch node
   lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml state=present regexp='^# node.data: true' line='node.data: false'"
-  tags: [ 'kibana' , 'config' ]
+  tags: [ 'kibana' , 'kibanaconfig' ]
   notify: restart elasticsearch
 
 - name: Set kibana host to to never be master elasticsearch node
   lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml state=present regexp='^# node.master: false' line='node.master: false'"
-  tags: [ 'kibana' , 'config' ]
+  tags: [ 'kibana' , 'kibanaconfig' ]
   notify: restart elasticsearch
 
 - name: Change ES heap size
-  lineinfile: "dest=/etc/sysconfig/elasticsearch state=present regexp='^ES_HEAP_SIZE=' line='#ES_HEAP_SIZE=512m'"
-  tags: [ 'kibana' , 'config' , 'elasticsearch' ]
+  lineinfile: "dest=/etc/sysconfig/elasticsearch state=present regexp='^#?ES_HEAP_SIZE=' line='#ES_HEAP_SIZE=512m'"
+  tags: [ 'kibana' , 'kibanaconfig' , 'elasticsearch' ]
   notify: restart elasticsearch
