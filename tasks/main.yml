@@ -77,14 +77,13 @@
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
   notify: restart nginx
 
-- name: Set kibana host to data only elastisearch node
-  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml state=present regexp='^# node.data: true' line='node.data: false'"
-  tags: [ 'kibana' , 'kibanaconfig' ]
-  notify: restart elasticsearch
-
-- name: Set kibana host to to never be master elasticsearch node
-  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml state=present regexp='^# node.master: false' line='node.master: false'"
-  tags: [ 'kibana' , 'kibanaconfig' ]
+- name: Copy elasticsearch config
+  template: src=elasticsearch.yml.j2
+            dest=/etc/elasticsearch/elasticsearch.yml
+            owner=root
+            group=root
+            mode=0644
+  tags: [ "kibana" , "kibanaconfig" ]
   notify: restart elasticsearch
 
 - name: Change ES heap size
