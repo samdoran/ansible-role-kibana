@@ -22,13 +22,17 @@
 - name: Get latest Kibana from GitHub
   git:  repo={{ kibana_git_url }}
         dest=/var/www/kibana
-        version=master
+        version=development
         update=yes
   tags: [ 'kibana' , 'kibanaupdate']
 
 - name: Configure kibana to point at ES
   lineinfile: "dest=/var/www/kibana/src/config.js state=present regexp='(^.*elasticsearch:.*:)(9200|443)(.*)$' line='    elasticsearch: \"https://\"+window.location.hostname+\":443\",'"
   tags: [ 'kibana' , 'kibanaconfig' , 'kibanaupdate' ]
+
+- name: Copy elasticsearch synthetic field script
+  copy: src=kibana dest=/etc/elasticsearch/scripts owner=root group=root mode=0644 directory_mode=755
+  tags: [ 'kibana' , 'kibanaconfig' ]
 
 - name: Copy nginx log rotation config
   copy: src=etc-logrotate.d-nginx dest=/etc/logrotate.d/nginx owner=root group=root mode=0644
