@@ -30,12 +30,8 @@
   lineinfile: "dest=/var/www/kibana/src/config.js state=present regexp='(^.*elasticsearch:.*:)(9200|443)(.*)$' line='    elasticsearch: \"https://\"+window.location.hostname+\":443\",'"
   tags: [ 'kibana' , 'kibanaconfig' , 'kibanaupdate' ]
 
-- name: Configure kibana to look at logstash-eng-YYYY.MM.DD indexes by default
-  lineinfile: "dest=/var/www/kibana/src/app/dashboards/logstash.json state=present regexp='YYYY' line='    \"pattern\": \"[logstash-]YYYY.MM.DD,[logstash-eng-]YYYY.MM.DD\",'"
-  tags: [ 'kibana' , 'kibanaconfig' , 'kibanaupdate' ]
-
 - name: Copy elasticsearch synthetic field script
-  copy: src=kibana dest=/etc/elasticsearch/scripts owner=root group=root mode=0644 directory_mode=755
+  copy: src=kibana dest=/etc/elasticsearch/scripts/ owner=root group=root mode=0644 directory_mode=755
   tags: [ 'kibana' , 'kibanaconfig' ]
 
 - name: Copy nginx log rotation config
