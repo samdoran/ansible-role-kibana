@@ -1,4 +1,2 @@
 ---
-kibana_zip: http://download.elasticsearch.org/kibana/kibana/kibana-latest.zip
-kibana_git_url: https://github.com/awheeler/kibana.git
-kibana_root: /var/www/kibana/src
+
