@@ -68,13 +68,13 @@
   template: src=etc-nginx-conf.d-ssl.inc.j2 dest=/etc/nginx/conf.d/ssl.inc owner=root group=root mode=0644
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
-- name: Copy nginx SSL public key
-  copy: src={{ ansible_hostname }}_royall_com.crt dest=/etc/pki/tls/certs/{{ ansible_hostname }}_royall_com.crt owner=root group=root mode=0644
+- name: Copy SSL public cert
+  template: src=ssl_crt.j2 dest=/etc/pki/tls/certs/{{ ansible_fqdn }}.crt owner=root group=root mode=0644
   notify: restart nginx
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
-- name: Copy nginx SSL private key
-  template: src={{ ansible_hostname }}_royall_com.key.j2 dest=/etc/pki/tls/private/{{ ansible_hostname }}_royall_com.key owner=root group=root mode=0600
+- name: Copy SSL private key
+  template: src=ssl_key.j2 dest=/etc/pki/tls/private/{{ ansible_fqdn }}.key owner=root group=root mode=0600
   notify: restart nginx
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 

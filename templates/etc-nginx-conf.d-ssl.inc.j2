@@ -7,5 +7,5 @@ ssl_protocols TLSv1.2 SSLv3;
 ssl_ciphers EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH+aRSA+RC4:EECDH:EDH+aRSA:RC4:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS;
 ssl_prefer_server_ciphers   on;
 
-ssl_certificate      /etc/pki/tls/certs/{{ ansible_hostname }}_royall_com.crt;
-ssl_certificate_key  /etc/pki/tls/private/{{ ansible_hostname }}_royall_com.key;
+ssl_certificate      /etc/pki/tls/certs/{{ ansible_fqdn }}.crt;
+ssl_certificate_key  /etc/pki/tls/private/{{ ansible_fqdn }}.key;
