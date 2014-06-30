@@ -1,7 +1,7 @@
 ---
 - name: Install nginx repo
-  copy: src=etc-yum.repos.d-nginx.conf
-        dest=/etc/yum.repos.d/nginx.conf
+  copy: src=etc-yum.repos.d-nginx.repo
+        dest=/etc/yum.repos.d/nginx.repo
         owner=root
         group=root
         mode=0644
@@ -15,7 +15,7 @@
     - git
   tags: [ 'kibana' , 'yum' ]
 
-- name: Enable nginx
+- name: Start and enable nginx
   service: name=nginx state=started enabled=yes
   tags: [ 'kibana' , 'yum', 'nginx' ]
 
@@ -83,16 +83,18 @@
   notify: restart nginx
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
-- name: Copy elasticsearch config
-  template: src=elasticsearch.yml.j2
-            dest=/etc/elasticsearch/elasticsearch.yml
-            owner=root
-            group=root
-            mode=0644
+- name: Make ES on kibana node data only
+  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml
+              line='node.data: false'
+              state=present"
   notify: restart elasticsearch
+  when: kibana_dataonly_es
   tags: [ "kibana" , "kibanaconfig" ]
 
-- name: Change ES heap size
-  lineinfile: "dest=/etc/sysconfig/elasticsearch state=present regexp='^#?ES_HEAP_SIZE=' line='#ES_HEAP_SIZE=512m'"
+- name: Make ES on kibana never a master
+  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml
+              line='node.master: false'
+              state=present"
   notify: restart elasticsearch
-  tags: [ 'kibana' , 'kibanaconfig' , 'elasticsearch' ]
+  when: kibana_dataonly_es
+  tags: [ "kibana" , "kibanaconfig" ]
