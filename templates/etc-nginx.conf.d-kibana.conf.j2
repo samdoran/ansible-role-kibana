@@ -12,7 +12,7 @@ server {
   location ~ ^/([^*]*)logstash-(?<date>d+.d+.d+)(,?[^*/]+)*/_search$ {
     set $part1 $1;
     set $part3 $3;
-    rewrite ^.*$ /${part1}${dev_access}-${date}${part3}/_search last;
+    rewrite ^.*$ /${part1}logstash-${date}${part3}/_search last;
   }
 
   location ~ ^/_(aliases|nodes|search|mapping)$ {
