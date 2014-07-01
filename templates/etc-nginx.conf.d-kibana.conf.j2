@@ -9,11 +9,11 @@ server {
     index  index.html  index.htm;
   }
 
-  location ~ ^/([^*]*)logstash-(?<date>d+.d+.d+)(,?[^*/]+)*/_search$ {
-    set $part1 $1;
-    set $part3 $3;
-    rewrite ^.*$ /${part1}logstash-${date}${part3}/_search last;
-  }
+  # location ~ ^/([^*]*)logstash-(?<date>d+.d+.d+)(,?[^*/]+)*/_search$ {
+  #   set $part1 $1;
+  #   set $part3 $3;
+  #   rewrite ^.*$ /${part1}logstash-${date}${part3}/_search last;
+  # }
 
   location ~ ^/_(aliases|nodes|search|mapping)$ {
     proxy_pass http://127.0.0.1:{{ es_http_port }};
