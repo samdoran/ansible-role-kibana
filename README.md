@@ -23,6 +23,8 @@ Role Variables
 
 **kibana_dataonly_es**      Make kibana elasticsearch node data only and never a master
 
+**kibana_ssl_cert_file**    Whether or not to install SSL certs (Default: false)
+
 Dependencies
 ------------
 

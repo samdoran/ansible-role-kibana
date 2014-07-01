@@ -67,11 +67,13 @@
 - name: Copy SSL public cert
   template: src=ssl_crt.j2 dest=/etc/pki/tls/certs/{{ ansible_fqdn }}.crt owner=root group=root mode=0644
   notify: restart nginx
+  when: kibana_ssl_cert_file
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
 - name: Copy SSL private key
   template: src=ssl_key.j2 dest=/etc/pki/tls/private/{{ ansible_fqdn }}.key owner=root group=root mode=0600
   notify: restart nginx
+  when: kibana_ssl_cert_file
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
 - name: Copy kibana nginx config
