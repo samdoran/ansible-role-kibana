@@ -15,10 +15,6 @@
     - git
   tags: [ 'kibana' , 'yum' ]
 
-- name: Start and enable nginx
-  service: name=nginx state=started enabled=yes
-  tags: [ 'kibana' , 'yum', 'nginx' ]
-
 - name: Get latest Kibana from GitHub
   git:  repo={{ kibana_git_url }}
         dest=/var/www/kibana
@@ -83,6 +79,11 @@
   notify: restart nginx
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
 
+- name: Start and enable nginx
+  service: name=nginx state=started enabled=yes
+  tags: [ 'kibana' , 'yum', 'nginx' ]
+
+# Elasticsearch configuration
 - name: Make ES on kibana node data only
   lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml
               line='node.data: false'
