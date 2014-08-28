@@ -87,17 +87,13 @@
 
 # Elasticsearch configuration
 - name: Make ES on kibana node data only
-  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml
-              line='node.data: false'
-              state=present"
+  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml regexp='node.data' line='node.data: false' state=present"
   notify: restart elasticsearch
   when: kibana_dataonly_es
-  tags: [ "kibana" , "kibanaconfig" ]
+  tags: [ "kibana" , "kibanaconfig" , "elasticsearch" ]
 
 - name: Make ES on kibana never a master
-  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml
-              line='node.master: false'
-              state=present"
+  lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml regexp='node.master' line='node.master: false' state=present"
   notify: restart elasticsearch
   when: kibana_dataonly_es
-  tags: [ "kibana" , "kibanaconfig" ]
+  tags: [ "kibana" , "kibanaconfig" , "elasticsearch" ]
