@@ -6,9 +6,11 @@ kibana_root:    /var/www/kibana/src
 kibana_ssl_cert_file: false
 
 # Ports
+http_port: 80
+
+# Elasticsearch
 es_http_port: 9200
 es_transport_port: 9300
-http_port: 80
 
 
 kibana_ssl_crt: |
