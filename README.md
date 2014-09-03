@@ -25,6 +25,8 @@ Role Variables
 
 **kibana_ssl_cert_file**    Whether or not to install SSL certs (Default: false)
 
+**kibana_default_route**    Override the default landing page
+
 Dependencies
 ------------
 
