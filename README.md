@@ -23,7 +23,9 @@ Role Variables
 
 **kibana_dataonly_es**      Make kibana elasticsearch node data only and never a master
 
-**kibana_ssl_cert_file**    Whether or not to install SSL certs (Default: false)
+**kibana_ssl_cert_file**    Name of SSL public key file. `.crt` is added to the end. (Default: {{ ansible_fqdn }})
+
+**kibana_ssl_key_file**    Name of SSL private key file. `.key` is added to the end. (Default: {{ ansible_fqdn }})
 
 **kibana_default_route**    Override the default landing page
 

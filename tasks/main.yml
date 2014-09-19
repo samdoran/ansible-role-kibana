@@ -29,7 +29,7 @@
 - name: Configure kibana to use non-default route
   lineinfile: dest=/var/www/kibana/src/config.js regexp="^(.*default_route.*:)" line="\1 '{{kibana_default_route}}'," backrefs=true
   when: kibana_default_route is defined
-  tags: [ 'kibana' , 'kibanaconfig' , 'kibanaupdate', 'test' ]
+  tags: [ 'kibana' , 'kibanaconfig' , 'kibanaupdate' ]
 
 - name: Copy elasticsearch synthetic field script
   copy: src=kibana dest=/etc/elasticsearch/scripts/ owner=root group=root mode=0644 directory_mode=755
@@ -68,23 +68,25 @@
 - name: Copy nginx SSL config
   template: src=etc-nginx-conf.d-ssl.inc.j2 dest=/etc/nginx/conf.d/ssl.inc owner=root group=root mode=0644
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
+  notify: restart nginx
 
 - name: Copy SSL public cert
-  template: src=ssl_crt.j2 dest=/etc/pki/tls/certs/{{ ansible_fqdn }}.crt owner=root group=root mode=0644 force=no
+  template: src=ssl_crt.j2 dest=/etc/pki/tls/certs/{{ kibana_ssl_cert_file | default(ansible_fqdn) }}.crt owner=root group=root mode=0644
   notify: restart nginx
-  when: kibana_ssl_cert_file is defined
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
+  notify: restart nginx
 
 - name: Copy SSL private key
-  template: src=ssl_key.j2 dest=/etc/pki/tls/private/{{ ansible_fqdn }}.key owner=root group=root mode=0600
+  template: src=ssl_key.j2 dest=/etc/pki/tls/private/{{ kibana_ssl_key_file | default(ansible_fqdn) }}.key owner=root group=root mode=0600
   notify: restart nginx
-  when: kibana_ssl_key_file is defined
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
+  notify: restart nginx
 
 - name: Copy kibana nginx config
   template: src=etc-nginx.conf.d-kibana.conf.j2 dest=/etc/nginx/conf.d/kibana.conf owner=root group=root mode=0644
   notify: restart nginx
   tags: [ 'kibana' , 'nginx' , 'kibanaconfig' ]
+  notify: restart nginx
 
 - name: Start and enable nginx
   service: name=nginx state=started enabled=yes

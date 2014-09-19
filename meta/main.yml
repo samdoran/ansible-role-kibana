@@ -15,4 +15,3 @@ galaxy_info:
     - system
 
 dependencies:
-  - { role: elasticsearch }
