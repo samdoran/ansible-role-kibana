@@ -29,6 +29,8 @@ Role Variables
 
 **kibana_default_route**    Override the default landing page
 
+**kibana_update_cert** Whether or not to copy new SSL private and pubilc key files. (Default: undefined)
+
 Dependencies
 ------------
 
