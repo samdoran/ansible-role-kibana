@@ -1,7 +1,7 @@
 ---
 kibana_dataonly_es: false
 kibana_zip:     http://download.elasticsearch.org/kibana/kibana/kibana-latest.zip
-kibana_git_url: https://github.com/awheeler/kibana.git
+kibana_git_url: https://git.royall.com/sdoran/kibana-alex.git
 kibana_root:    /var/www/kibana/src
 kibana_update_cert: false
 
