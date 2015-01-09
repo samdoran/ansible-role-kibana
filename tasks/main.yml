@@ -6,11 +6,11 @@
     - git
   tags: [ 'kibana' , 'yum' ]
 
-- name: Get latest Kibana from GitHub
+- name: Get latest Kibana
   git:
     repo: "{{ kibana_git_url }}"
     dest: /var/www/kibana
-    version: development
+    version: "{{ kibana_git_version }}"
     update: yes
   tags: [ 'kibana' , 'kibanaupdate']
 
@@ -42,7 +42,7 @@
 
 - name: Copy kibana nginx config
   template:
-    src: etc-nginx.conf.d-kibana.conf.j2
+    src: kibana.conf.j2
     dest: /etc/nginx/conf.d/kibana.conf
     owner: root
     group: root

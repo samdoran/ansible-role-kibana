@@ -1,47 +1,66 @@
-kibana
+Kibana
 ========
 
-Install nginx, kibana, and elasticsearch. Configure the node as a data-onle elasticsearch node using nginx as an HTTPS proxy to elasticsearch. A self-signed certificate is included. Creating a certificate and storing it in an Ansible vault is recommended.
+Install Kibana 3.
 
 Requirements
 ------------
 
+TCP ports 80, 443, 9200, and 9300 open in iptables.
 
 
 Role Variables
 --------------
 
-**kibana_zip**              Zip file containing kibana release
+Zip file containing kibana release:
+    
+    kibana_zip: http://download.elasticsearch.org/kibana/kibana/kibana-latest.zip
 
-**kibana_git_url**          Git repo where Kibana will be checked out from
+Git repo where Kibana will be checked out from:
+    
+    kibana_git_url: https://git.royall.com/sdoran/kibana-alex.git
 
-**kibana_root**             Root directory served by nginx containing kibana
+Git branch to checkout:
 
-**kibana_ssl_crt**          SSL public key
+    kibana_git_version: master
 
-**kibana_ssl_key**          SSL private key. I recommend storing this in an Ansible vault.
+Root directory served by nginx containing kibana
+    
+    kibana_root: /var/www/kibana/src
 
-**kibana_dataonly_es**      Make kibana elasticsearch node data only and never a master
+SSL cert and key. I recommend storing the key in an Ansible vault.
+    
+    kibana_ssl_crt: |   
+    kibana_ssl_key: |
 
-**kibana_ssl_kibana_ssl_basename**    Name of SSL key files. `.crt` is added to the end of the public key and `.key` is added to the end of the private key. (Default: {{ ansible_fqdn }})
+Make kibana elasticsearch node data only and never a master
+    
+    kibana_dataonly_es: False
 
-**kibana_default_route**    Override the default landing page
+Name of SSL key files. `.crt` is added to the end of the public key and `.key` is added to the end of the private key. (Default: {{ ansible_fqdn }})
+    
+    kibana_ssl_kibana_ssl_basename
 
-**kibana_update_cert** Whether or not to copy new SSL private and pubilc key files. (Default: false)
+Override the default landing page:
+    
+    kibana_default_route: /dashboard/file/default.json
+
+Whether or not to copy new SSL private and pubilc key files. (Default: false)
+    
+    kibana_update_cert: False
 
 Dependencies
 ------------
 
-- Elasticsearch role.
-
-- TCP ports 80, 443, 9200, and 9300 open in iptables.
+- Elasticsearch role
+- nginx role
 
 Example Playbook
 ----------------
 
         hosts: all
         roles:
-            - { role: kibana, kibana_dataonly_es: true }
+            - { role: kibana, kibana_dataonly_es: True }
 
 License
 -------
