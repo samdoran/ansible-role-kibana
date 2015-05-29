@@ -11,6 +11,7 @@ http_port: 80
 
 # Elasticsearch
 es_http_port: 9200
+es_http_proxy_port: "{{ es_http_port }}"
 es_transport_port: 9300
 
 
