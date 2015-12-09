@@ -1,6 +1,6 @@
 server {
   listen {{ https_port }};
-  server_name {{ kibana_nginx_fqdn }};
+  server_name {{ kibana_nginx_server_name}};
 
   include /etc/nginx/conf.d/ssl.inc;
 

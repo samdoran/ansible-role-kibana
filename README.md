@@ -23,6 +23,7 @@ Role Variables
 | `kibana_dataonly_es` | `False` | Make kibana elasticsearch node data only and never a master. |
 | `kibana_default_route` | [undefined] | Override the default landing page. |
 | `kibana_update_cert` | `False` | Whether or not to copy new SSL private and pubilc key files. |
+| `kibana_nginx_server_name` | `{{ ansible_fqdn }}` | Space delimited list of names used in the nginx `server_name` setting. |
 
 Dependencies
 ------------
