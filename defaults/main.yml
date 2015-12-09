@@ -5,6 +5,7 @@ kibana_git_url: "https://github.com/elasticsearch/kibana.git"
 kibana_git_version: kibana3
 kibana_root: /var/www/kibana/src
 kibana_update_cert: False
+kibana_nginx_fqdn: "{{ ansible_fqdn }}"
 
 # Ports
 http_port: 80
