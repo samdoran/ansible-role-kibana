@@ -1,17 +1,19 @@
 ---
 galaxy_info:
   author: Sam Doran
-  description:
-  company: "Royall & Company"
+  description: "Kibana is a powerful and flexible analytics platform."
+  company: ""
   license: MIT
-  min_ansible_version: 1.2
+  min_ansible_version: 1.9
 
   platforms:
   - name: EL
     versions:
       - 6
 
-  categories:
+  galaxy_tags:
+    - logs
+    - kibana
     - system
 
 dependencies: []
