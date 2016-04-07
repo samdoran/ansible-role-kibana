@@ -7,7 +7,6 @@
     es_version: 2.x
     es_group_name: all
     kibana_version: 4.4
-    kibana_elasticsearch_url: "https://elasticsearch-01.p10.royall.com:9200"
     kibana_tls_enabled: True
     kibana_tls_filename: kibana4
     kibana_elasticsearch_ssl_verify: False

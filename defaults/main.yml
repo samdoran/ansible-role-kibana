@@ -14,7 +14,7 @@ kibana_tls_filename: "{{ ansible_fqdn }}"
 kibana_elasticsearch_tls_enabled: False
 kibana_elasticsearch_tls_crt_path: "/etc/pki/tls/certs"
 kibana_elasticsearch_tls_key_path: "/etc/pki/tls/private"
-kibana_elasticsearch_tls_filename: "{{ ansible_fqdn }}.es"
+kibana_elasticsearch_tls_filename: "{{ ansible_fqdn }}-es"
 
 kibana_tls_certificates:
   - src: tls_crt.j2
@@ -24,6 +24,14 @@ kibana_tls_certificates:
     dest: "{{ kibana_tls_key_path }}/{{ kibana_tls_filename }}.key"
     owner: kibana
     mode: "0400"
+
+  # - src: tls_crt.j2
+  #   dest: "{{ kibana_elasticsearch_tls_crt_path }}/{{ kibana_elasticsearch_tls_filename }}.crt"
+
+  # - src: tls_key.j2
+  #   dest: "{{ kibana_elasticsearch_tls_key_path }}/{{ kibana_elasticsearch_tls_filename }}.key"
+  #   owner: kibana
+  #   mode: "0400"
 
 
 # --- Settings used in kibana.yml.j2 --- #
