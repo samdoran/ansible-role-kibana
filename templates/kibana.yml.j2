@@ -1,0 +1,44 @@
+# {{ ansible_managed }}
+
+server.port: {{ kibana_server_port }}
+server.host: "{{ kibana_server_host }}"
+{% if kibana_server_basepath is defined %}
+server.basePath: "{{ kibana_server_basepath }}"
+{% endif %}
+server.maxPayloadBytes: {{ kibana_server_max_payload_bytes }}
+
+kibana.index: "{{ kibana_index }}"
+kibana.defaultAppId: "{{ kibana_default_appid }}"
+
+{% if kibana_tls_enabled %}
+server.ssl.cert: {{ kibana_server_ssl_cert }}
+server.ssl.key: {{ kibana_server_ssl_key }}
+{% endif %}
+
+elasticsearch.url: "{{ kibana_elasticsearch_url }}"
+elasticsearch.preserveHost: {{ kibana_elasticsearch_preserve_host | lower }}
+{% if kibasa_elasticsearch_username is defined %}
+elasticsearch.username: "{{ kibasa_elasticsearch_username }}"
+elasticsearch.password: "{{ kibasa_elasticsearch_password }}"
+{% endif %}
+{% if kibana_elasticsearch_tls_enabled %}
+elasticsearch.ssl.cert: {{ kibana_elasticsearch_ssl_cert }}
+elasticsearch.ssl.key: {{ kibana_elasticsearch_ssl_key }}
+{% endif %}
+{% if kibana_elasticsearch_tls_enabled %}
+elasticsearch.ssl.ca: {{ kibana_elasticsearch_ssl_ca }}
+{% endif %}
+elasticsearch.ssl.verify: {{ kibana_elasticsearch_ssl_verify | lower }}
+elasticsearch.pingTimeout: {{ kibana_elasticsearch_ping_timeout }}
+elasticsearch.requestTimeout: {{ kibana_elasticsearch_request_timeout }}
+elasticsearch.shardTimeout: {{ kibana_elasticsearch_shard_timeout }}
+elasticsearch.startupTimeout: {{ kibana_elasticsearch_startup_timeout }}
+
+{% if kibana_pid_file is defined %}
+pid.file: {{ kibana_pid_file }}
+{% endif %}
+
+logging.dest: {{ kibana_logging_dest }}
+logging.silent: {{ kibana_logging_silent | lower }}
+logging.quiet: {{ kibana_logging_quiet | lower }}
+logging.verbose: {{ kibana_logging_verbose | lower }}
