@@ -24,6 +24,7 @@
   yum:
     name: kibana
     state: latest
+  notify: restart kibana
   tags:
     - kibana
     - kibana-update
