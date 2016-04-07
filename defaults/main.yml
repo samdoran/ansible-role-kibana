@@ -1,16 +1,108 @@
 ---
-kibana_dataonly_es: False
-kibana_update_cert: False
-kibana_nginx_server_name: "{{ ansible_fqdn }}"
-
-# Ports
-http_port: 80
-
-# Elasticsearch
+# --- Elasticsearch Settings --- #
 es_http_port: 9200
 es_http_listen_port: "{{ es_http_port }}"
-es_transport_port: 9300
 
+# --- Kibana settings--- #
+kibana_version: 4.5
+
+kibana_tls_enabled: False
+kibana_tls_crt_path: "/etc/pki/tls/certs"
+kibana_tls_key_path: "/etc/pki/tls/private"
+kibana_tls_filename: "{{ ansible_fqdn }}"
+
+kibana_elasticsearch_tls_enabled: False
+kibana_elasticsearch_tls_crt_path: "/etc/pki/tls/certs"
+kibana_elasticsearch_tls_key_path: "/etc/pki/tls/private"
+kibana_elasticsearch_tls_filename: "{{ ansible_fqdn }}.es"
+
+kibana_tls_certificates:
+  - src: tls_crt.j2
+    dest: "{{ kibana_tls_crt_path }}/{{ kibana_tls_filename }}.crt"
+
+  - src: tls_key.j2
+    dest: "{{ kibana_tls_key_path }}/{{ kibana_tls_filename }}.key"
+    owner: kibana
+    mode: "0400"
+
+
+# --- Settings used in kibana.yml.j2 --- #
+kibana_server_port: 5601
+kibana_server_host: "0.0.0.0"
+
+# If you are running kibana behind a proxy, and want to mount it at a path,
+# specify that path here. The basePath can't end in a slash.
+kibana_server_basepath: ""
+
+# The maximum payload size in bytes on incoming server requests.
+kibana_server_max_payload_bytes: 1048576
+
+# The Elasticsearch instance to use for all your queries.
+kibana_elasticsearch_url: "http://localhost:{{ es_http_listen_port }}"
+
+# preserve_elasticsearch_host true will send the hostname specified in `elasticsearch`. If you set it to false,
+# then the host you use to connect to *this* Kibana instance will be sent.
+kibana_elasticsearch_preserve_host: "true"
+
+# Kibana uses an index in Elasticsearch to store saved searches, visualizations
+# and dashboards. It will create a new index if it doesn't already exist.
+kibana_index: ".kibana"
+
+# The default application to load.
+kibana_default_appid: "discover"
+
+# If your Elasticsearch is protected with basic auth, these are the user credentials
+# used by the Kibana server to perform maintenance on the kibana_index at startup. Your Kibana
+# users will still need to authenticate with Elasticsearch (which is proxied through
+# the Kibana server)
+# kibasa_elasticsearch_username: "user"
+# kibasa_elasticsearch_password: "pass"
+
+# SSL for outgoing requests from the Kibana Server to the browser (PEM formatted)
+kibana_server_ssl_cert: "{{ kibana_tls_crt_path }}/{{ kibana_tls_filename }}.crt"
+kibana_server_ssl_key: "{{ kibana_tls_key_path }}/{{ kibana_tls_filename }}.key"
+
+# Optional setting to validate that your Elasticsearch backend uses the same key files (PEM formatted)
+kibana_elasticsearch_ssl_cert: "{{ kibana_elasticsearch_tls_crt_path }}/{{ kibana_elasticsearch_tls_filename }}.crt"
+kibana_elasticsearch_ssl_key: "{{ kibana_elasticsearch_tls_key_path }}/{{ kibana_elasticsearch_tls_filename }}.key"
+
+# If you need to provide a CA certificate for your Elasticsearch instance, put
+# the path of the pem file here.
+# kibana_elasticsearch_ssl_ca: /path/to/your/CA.pem
+
+# Set to false to have a complete disregard for the validity of the SSL
+# certificate.
+kibana_elasticsearch_ssl_verify: "true"
+
+# Time in milliseconds to wait for elasticsearch to respond to pings, defaults to
+# request_timeout setting
+kibana_elasticsearch_ping_timeout: 1500
+
+# Time in milliseconds to wait for responses from the back end or elasticsearch.
+# This must be > 0
+kibana_elasticsearch_request_timeout: 30000
+
+# Time in milliseconds for Elasticsearch to wait for responses from shards.
+# Set to 0 to disable.
+kibana_elasticsearch_shard_timeout: 0
+
+# Time in milliseconds to wait for Elasticsearch at Kibana startup before retrying
+kibana_elasticsearch_startup_timeout: 5000
+
+# Set the path to where you would like the process id file to be created.
+#kibana_pid_file: /var/run/kibana.pid
+
+# If you would like to send the log output to a file you can set the path below.
+kibana_logging_dest: stdout
+
+# Set this to true to suppress all logging output.
+kibana_logging_silent: "false"
+
+# Set this to true to suppress all logging output except for error messages.
+kibana_logging_quiet: "false"
+
+# Set this to true to log all events, including system usage information and all requests.
+kibana_logging_verbose: "false"
 
 # These are examples of storing a block varible in YAML using the "|" character
 # to indicate a literal style, preserving line breaks.
