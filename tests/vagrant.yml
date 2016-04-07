@@ -1,0 +1,70 @@
+---
+- hosts: all
+  remote_user: vagrant
+  become: True
+
+  vars:
+    es_version: 2.x
+    es_group_name: all
+    kibana_version: 4.4
+    kibana_tls_enabled: True
+    kibana_tls_filename: kibana4
+    kibana_elasticsearch_ssl_verify: False
+    kibana_tls_crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIDkTCCAnmgAwIBAgIJAN8pU5F69fG9MA0GCSqGSIb3DQEBCwUAMF8xCzAJBgNV
+      BAYTAlVTMQswCQYDVQQIDAJWQTERMA8GA1UEBwwIUmljaG1vbmQxEzARBgNVBAoM
+      CkFjbWUsIEluYy4xGzAZBgNVBAMMEmtpYmFuYS52YWdyYW50LmRldjAeFw0xNjA0
+      MDcyMDM3MDNaFw0yNjA0MDUyMDM3MDNaMF8xCzAJBgNVBAYTAlVTMQswCQYDVQQI
+      DAJWQTERMA8GA1UEBwwIUmljaG1vbmQxEzARBgNVBAoMCkFjbWUsIEluYy4xGzAZ
+      BgNVBAMMEmtpYmFuYS52YWdyYW50LmRldjCCASIwDQYJKoZIhvcNAQEBBQADggEP
+      ADCCAQoCggEBAMzH5KrU9OlMrDD6LWPYjLTYLv3sTmmFwBkNBN99tiQdHIZRxBx2
+      iQUpTkJ998CaHp3MJ7EadU6VVusKKYMp2CfrbfgD5a6sBFcElWvshbFBASrY79Gx
+      LKYyIokCSNH5x8puYCos/fJn2kySOetLaYf2OEMCaf7Qhhqh7EumZCWOhpIQIeM+
+      dK7Wiwa4NeCKeoT2yQ6T5RkvOtTJ9CiCyKS9nEsOPCl9lTb8G+haHtMSvkSg+PYw
+      SIQlXVyP9QfthHUdr1tBxw2o175XbtNKhV7uRIJk/0dLD0N1m1PCwW1a6Q0EUWzd
+      6T38V2lj/jnd6jH1BHdnXAfVtfPbMphNxc0CAwEAAaNQME4wHQYDVR0OBBYEFFW5
+      hyB9d+4CKKbLY4yEJfqnAO0WMB8GA1UdIwQYMBaAFFW5hyB9d+4CKKbLY4yEJfqn
+      AO0WMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAKnJNMhsH50gCZeV
+      wBGGM9m/pHC8SCvGTtRUyiLpxYkOgHsaVSb4zkOHOD3fLNHsVz7x4Y6QYAZ7yGhK
+      CXBMiZDJBdHXDJhDMxznUNHe2OM2LZbqFkmRB+LP8xYVHH61MrngV0SeoRxKNhL9
+      yq5MQCMboMIYaZihxvU9+UN5sAekK0hERYlFbQUQqqsyYqTMtNxG4hswAU8v2QQD
+      B/nJcETCQFzxBrQNRauCX/THG37ttw8GWimSOGgic273tWDWO1tQWMn887aqBy2k
+      Wl//PRSsHQqG1Zwzyconk+bMcYQ20Iu/8lqiKW8pVZ5NZMNVDl0PHId6oTBBLJtk
+      iTn1YWc=
+      -----END CERTIFICATE-----
+
+    kibana_tls_key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDMx+Sq1PTpTKww
+      +i1j2Iy02C797E5phcAZDQTffbYkHRyGUcQcdokFKU5CfffAmh6dzCexGnVOlVbr
+      CimDKdgn6234A+WurARXBJVr7IWxQQEq2O/RsSymMiKJAkjR+cfKbmAqLP3yZ9pM
+      kjnrS2mH9jhDAmn+0IYaoexLpmQljoaSECHjPnSu1osGuDXginqE9skOk+UZLzrU
+      yfQogsikvZxLDjwpfZU2/BvoWh7TEr5EoPj2MEiEJV1cj/UH7YR1Ha9bQccNqNe+
+      V27TSoVe7kSCZP9HSw9DdZtTwsFtWukNBFFs3ek9/FdpY/453eox9QR3Z1wH1bXz
+      2zKYTcXNAgMBAAECggEBALsgYp2UsiRKcwLiaf3WUWWkMvTILjMRDKQXmH9dkcZY
+      b8tyBmH4E2eLAj+SeoYej6GkgBS/V7iykNWA2MRJxYNdCIVdklHWULTvtFcFsHl0
+      LEvqJuOYInPQVmyakM6HkIEz8V449OnA6uOTr6eKpumeHnVlTFSUWicWFiZe6x7B
+      BnSJxuh94SxFC5F772Fa3qf26HSIS3g5WKT3nQp6eWBpXBLx8otq3n3jfETGF7jN
+      DQm33hnf57ncCfZlmBw5TdY7v+46sRgdHArg9vr7fRjpHS8dbL/MQB7vyMx/Ihex
+      QFuPFfLBfV3ri2/ZXMFfnvf1CMS4JxQ+l3ejdG+YmCECgYEA9EmkNU0OTkJtDFb5
+      U+2QpCG2Xl2fs+iLDAawstp0kzLqeizTpBoq6fOeFWSIokVYI0/h6WfdNMk+CpKu
+      U2JibMo9CpVXQxqLDoBsecQdZa0dN49gUzGORlRFltbyCb/pxIr1W4qGE8krvu5V
+      DauaaWbivliGTMXy12X0Mku1T1UCgYEA1plZeysxXHw15CPwWJAP6pPxSSH/9d8u
+      4Gjhe5plPh0/DhOv9WJI7WPJbmtbWSwYaQ7piy6P8TRG01t/Sy2uyTyo87FqiIUq
+      XJU3Tv/jS3l7xQJT4zghvtqO5WEV43Fb/bhWP25seLxmTaILbXOGEmIk54A0zEMm
+      DmrWUQ6T7JkCgYB6QuEMTCR8xoINSvo+JwfdHYJIeFMVl6z/t9l3qh3uDe2MeCL0
+      XqRbsrHLwyUfEdWq1rAaQQFVCeMjJ4ZX9UWNbSpfwZ6K1x4BhATGbIDKAno89GUh
+      PgwW5tZtR+abOpGk7GcgCZRREr3yMRYgYWJGnledLHEKu4duhnhRM9LqgQKBgG2X
+      Cnc365FLbUoAgHD5wOcOfh3W2xv4ybuYU+4HPsSlstnBfA5YDt4MI4XcFV5Ign7E
+      Osf1E1UeWTz+cNc3kRb7f1xTsg/d0XBOU1xomO6mL2rAcY6Lz8/jVS4WklMARPYg
+      +QqTnZlavPPQWP2gDUu+CxKeClh1wi2CqcfjJe+hAoGBAMM61jnHpCIsTYngicHd
+      7dE95YFpfkGVBmcrl6ehxAmhs9SDhZXXSm0/CLBHu3LvTeTC727fwYOPiitRhkhF
+      0kGYJtRHW+wPkYJN8UBhU5TDT525CIHv0o0Xe9Q2w8JYv+zq0iDLXhl/Fhz2s+Fl
+      dGcrCL5Dgfw5JpGZBoMaHRaB
+      -----END PRIVATE KEY-----
+
+
+  roles:
+    - elasticsearch
+    - kibana
