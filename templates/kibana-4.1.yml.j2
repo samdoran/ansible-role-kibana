@@ -1,0 +1,45 @@
+# {{ ansible_managed }}
+
+port: {{ kibana_server_port }}
+host: "{{ kibana_server_host }}"
+elasticsearch_url: "{{ kibana_elasticsearch_url }}"
+elasticsearch_preserve_host: {{ kibana_elasticsearch_preserve_host | lower }}
+kibana_index: "{{ kibana_index }}"
+{% if kibana_elasticsearch_username is defined %}
+kibana_elasticsearch_username: {{ kibana_elasticsearch_username }}
+kibana_elasticsearch_password: {{ kibana_elasticsearch_password }}
+{% endif %}
+{% if kibana_elasticsearch_tls_enabled %}
+kibana_elasticsearch_client_crt: {{ kibana_elasticsearch_username }}
+kibana_elasticsearch_client_key: {{ kibana_elasticsearch_password }}
+{% endif %}
+{% if kibana_elasticsearch_tls_enabled %}
+ca: {{ kibana_elasticsearch_ssl_ca }}
+{% endif %}
+default_app_id: "{{ kibana_default_appid }}"
+ping_timeout: {{ kibana_elasticsearch_ping_timeout }}
+request_timeout: {{ kibana_elasticsearch_request_timeout }}
+shard_timeout: {{ kibana_elasticsearch_shard_timeout }}k
+startup_timeout: {{ kibana_elasticsearch_startup_timeout }}
+verify_ssl: {{ kibana_elasticsearch_ssl_verify | lower }}
+{% if kibana_tls_enabled %}
+ssl_key_file: {{ kibana_server_ssl_cert }}
+ssl_cert_file: {{ kibana_server_ssl_key }}
+{% endif %}
+{% if kibana_pid_file is defined %}
+pid_file: {{ kibana_pid_file }}
+{% endif %}
+# log_file: ./kibana.log
+
+# Plugins that are included in the build, and no longer found in the plugins/ folder
+bundled_plugin_ids:
+ - plugins/dashboard/index
+ - plugins/discover/index
+ - plugins/doc/index
+ - plugins/kibana/index
+ - plugins/markdown_vis/index
+ - plugins/metric_vis/index
+ - plugins/settings/index
+ - plugins/table_vis/index
+ - plugins/vis_types/index
+ - plugins/visualize/index
