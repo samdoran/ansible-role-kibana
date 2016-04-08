@@ -63,8 +63,8 @@ kibana_default_appid: "discover"
 # used by the Kibana server to perform maintenance on the kibana_index at startup. Your Kibana
 # users will still need to authenticate with Elasticsearch (which is proxied through
 # the Kibana server)
-# kibasa_elasticsearch_username: "user"
-# kibasa_elasticsearch_password: "pass"
+# kibana_elasticsearch_username: "user"
+# kibana_elasticsearch_password: "pass"
 
 # SSL for outgoing requests from the Kibana Server to the browser (PEM formatted)
 kibana_server_ssl_cert: "{{ kibana_tls_crt_path }}/{{ kibana_tls_filename }}.crt"

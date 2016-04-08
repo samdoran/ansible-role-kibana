@@ -17,9 +17,9 @@ server.ssl.key: {{ kibana_server_ssl_key }}
 
 elasticsearch.url: "{{ kibana_elasticsearch_url }}"
 elasticsearch.preserveHost: {{ kibana_elasticsearch_preserve_host | lower }}
-{% if kibasa_elasticsearch_username is defined %}
-elasticsearch.username: "{{ kibasa_elasticsearch_username }}"
-elasticsearch.password: "{{ kibasa_elasticsearch_password }}"
+{% if kibana_elasticsearch_username is defined %}
+elasticsearch.username: "{{ kibana_elasticsearch_username }}"
+elasticsearch.password: "{{ kibana_elasticsearch_password }}"
 {% endif %}
 {% if kibana_elasticsearch_tls_enabled %}
 elasticsearch.ssl.cert: {{ kibana_elasticsearch_ssl_cert }}
