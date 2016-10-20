@@ -1,4 +1,3 @@
----
 - name: Install Kibana repo
   template:
     src: kibana.repo.j2
@@ -31,7 +30,7 @@
 
 - name: Copy Kibana config
   template:
-    src: kibana-{{ kibana_version }}.yml.j2
+    src: kibana{{ '-' + kibana_version | string if kibana_version | version_compare('4.5', '<') else '' }}.yml.j2
     dest: /opt/kibana/config/kibana.yml
   notify: restart kibana
   tags:
