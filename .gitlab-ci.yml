@@ -1,4 +1,3 @@
----
 image: "samdoran/gitlab-ci-test-el6"
 
 before_script:

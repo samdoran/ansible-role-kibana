@@ -1,6 +1,7 @@
 Kibana
 ========
 [![Galaxy](https://img.shields.io/badge/galaxy-samdoran.kibana-blue.svg?style=flat)](https://galaxy.ansible.com/samdoran/kibana)
+[![Build Status](https://travis-ci.org/samdoran/ansible-role-kibana.svg?branch=master)](https://travis-ci.org/samdoran/ansible-role-kibana)
 
 Install Kibana
 
