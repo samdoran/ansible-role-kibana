@@ -1,0 +1,12 @@
+- hosts: localhost
+  remote_user: root
+
+  vars:
+    es_group_name: all
+    es_minimum_master_nodes: 1
+    es_recovery_nodes: 1
+
+  roles:
+    - java
+    - elasticsearch
+    - role_under_test
