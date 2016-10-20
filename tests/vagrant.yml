@@ -6,7 +6,6 @@
     es_group_name: all
     es_minimum_master_nodes: 1
     es_recovery_nodes: 1
-    kibana_version: 4.5
     kibana_tls_enabled: no
     kibana_tls_filename: kibana4
     kibana_elasticsearch_ssl_verify: False

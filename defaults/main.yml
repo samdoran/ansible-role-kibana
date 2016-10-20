@@ -3,7 +3,7 @@ es_http_port: 9200
 es_http_listen_port: "{{ es_http_port }}"
 
 # --- Kibana settings--- #
-kibana_version: 4.5
+kibana_version: 4.6
 
 kibana_tls_enabled: False
 kibana_tls_crt_path: "/etc/pki/tls/certs"
