@@ -41,7 +41,9 @@ Example Playbook
 
         hosts: all
         roles:
-            - { role: kibana, }
+            - samdoran.java
+            - samdoran.elasticsearch
+            - samdoran.kibana
 
 License
 -------
