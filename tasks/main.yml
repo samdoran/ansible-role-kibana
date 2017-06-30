@@ -31,7 +31,7 @@
 - name: Copy Kibana config
   template:
     src: kibana{{ '-' + kibana_version | string if kibana_version | version_compare('4.5', '<') else '' }}.yml.j2
-    dest: /opt/kibana/config/kibana.yml
+    dest: /etc/kibana/kibana.yml
   notify: restart kibana
   tags:
     - kibana
