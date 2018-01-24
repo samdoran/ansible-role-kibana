@@ -18,6 +18,8 @@ Role Variables
 |-------------------|---------------------|----------------------|
 | `es_http_port` | `9200` | Port to communicate with Elasticsearch. |
 | `es_http_listen_port` | `{{ es_http_port }}` | Can be set to a different value when using a TLS proxy in front of Elasticsearch and you want to talk directly to Elasticsearch service and bypass the proxy. |
+| `es_proxy_host` | (no proxy) | Host of proxy to use with YUM repo. This variable is the same as used by official elasticsearch role |
+| `es_proxy_port` | (no proxy) | Port of proxy to use with YUM repo |
 | `kibana_version` | `5` | Version number used in `kibana.repo.j2` template. The latest version from that repository will be installed. |
 | `kibana_tls_enabled` | `False` | Whether or not to use TLS for connections from the browser to Kibana. Setting this to `True` also inserts `kibana_service_ssl_cert` and `kibana_service_ssl_key` into `kibana.yml`, so make sure those values are correctly defined as well. |
 | `kibana_tls_crt_path` | `/etc/pki/tls/certs` | Location of the Kibana TLS certificate will be copied to. |

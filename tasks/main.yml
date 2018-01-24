@@ -10,15 +10,6 @@
     - kibana-repo
     - kibana-update
 
-- name: Install Elasticsearch GPG key
-  rpm_key:
-    key: "https://packages.elastic.co/GPG-KEY-elasticsearch"
-    state: present
-  tags:
-    - kibana
-    - kibana-repo
-    - kibana-update
-
 - name: Install Kibana
   yum:
     name: kibana
