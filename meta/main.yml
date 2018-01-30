@@ -3,7 +3,7 @@ galaxy_info:
   description: "Kibana is a powerful and flexible analytics platform."
   company: Ansible by Red Hat
   license: MIT
-  min_ansible_version: 2.1
+  min_ansible_version: 2.4
 
   platforms:
   - name: EL
